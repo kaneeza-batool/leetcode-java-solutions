@@ -68,3 +68,39 @@ class Solution {
 
 - **Time:** O(n^2) — For every zero found, you shift all elements left, that's O(n) inside O(n)
 - **Space: O(1) —** In-place, no extra array
+
+## Approach (Two Pointer)
+
+- Use pointer `pos` to track where the next non-zero element should go, starting at 0
+- Loop through the array with pointer `i`
+- When a non-zero element is found, swap `nums[i]` with `nums[pos]` and increment `pos`
+- Zeros naturally bubble to the end as non-zero elements swap forward
+- Return is implicit — modified in-place
+
+## Mistakes
+
+- Took Help from AI
+
+## Solution
+
+```java
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int pos = 0;
+        // move all non-zero elements forward
+        for (int i=0; i<nums.length; i++) {
+            if (nums[i] != 0) {
+                int temp = nums[i];
+                nums[i] = nums[pos];
+                nums[pos] = temp;
+                pos++;
+            }
+        } 
+    }
+}
+```
+
+## Time and Space Complexity
+
+- **Time:** O(n) — Single pass through the array
+- **Space: O(1) —** In-place, no extra array
