@@ -68,9 +68,25 @@ class Solution {
 
 ## Mistakes
 
-- First attempt wasn't optimal
-- This is my first two-pointer problem
-- I learned it from a video
+- Incorrect use of `Math.abs()` — passed a boolean expression instead of a number
+    
+    → `Math.abs(nums[i] > Math.abs(nums[j]))` is invalid
+    
+- Used `Math.pow()` for squaring — returns `double`, causing type mismatch with `int`
+- Missing curly braces `{}` in `if` statement — caused unintended execution of `i++`
+- Pointer update placed outside `if` block — broke two-pointer logic
+
+**`Math.abs()` usage in Java:**
+
+- Takes a numeric value and returns its absolute value
+- Correct: `Math.abs(nums[i]) > Math.abs(nums[j])`
+- Incorrect: `Math.abs(condition)` ❌ (cannot pass boolean)
+
+**Squaring numbers in Java:**
+
+- Prefer multiplication: `x * x`
+- `Math.pow(x, 2)` returns `double`, not `int`
+- Use `Math.pow` only when working with non-integer powers
 
 ## Solution (Two pointers Approach)
 
