@@ -45,6 +45,18 @@ Output: [3,4,6,16,17]
 - Got confused between `i < nums.length` and `i <= nums.length` — `<=` would cause ArrayIndexOutOfBoundsException because arrays are 0-indexed and `nums[nums.length]` doesn't exist
 - Initially tried printing the array inside the method that is not needed, `return` is what matters
 
+## **Solution:**
+
+```java
+class Solution {
+    public int[] runningSum(int[] nums) {
+        for (int i=1; i<nums.length; i++) {
+            nums[i] = nums[i] + nums[i-1];
+        }
+        return nums;
+    }
+}
+```
 
 ## **Complexity:**
 
