@@ -1,7 +1,7 @@
 # 🚀 LeetCode Java Solutions
 
 This repository contains my daily practice of solving LeetCode problems using **Java**.
-Problems are organized by topic, with clean and readable solutions
+Problems are organized by topic, with clean and readable solutions.
 
 ---
 
