@@ -1,51 +1,36 @@
-## Problem
+## **Problem Summary**
 
-Given an array `nums`. We define a running sum of an array as `runningSum[i] = sum(nums[0]…nums[i])`.
+Given an array, return a new array where each element is the sum of all previous elements, including itself. 
 
-Return the running sum of `nums`.
+---
 
-**Example 1:**
+## **Initial Thought Process**
 
-```
-Input: nums = [1,2,3,4]
-Output: [1,3,6,10]
-Explanation: Running sum is obtained as follows: [1, 1+2, 1+2+3, 1+2+3+4].
-```
+Loop through the array, add the current element to the previous element. Start from index 1 to avoid out of bounds at index -1.
 
-**Example 2:**
+---
 
-```
-Input: nums = [1,1,1,1,1]
-Output: [1,2,3,4,5]
-Explanation: Running sum is obtained as follows: [1, 1+1, 1+1+1, 1+1+1+1, 1+1+1+1+1].
-```
+## **Mistakes / Struggles**
 
-**Example 3:**
+- Initially declared `int i=0` twice, duplicate variable declaration in Java
 
-```
-Input: nums = [3,1,2,10,1]
-Output: [3,4,6,16,17]
+---
 
-```
+## **Key Observation**
 
-**Constraints:**
+Each element only needs the element directly before it  because that previous element already contains the cumulative sum up to that point.
 
-- `1 <= nums.length <= 1000`
-- `-10^6 <= nums[i] <= 10^6`
+---
 
-## Approach
+## **Final Approach**
 
-- Iterate through the array starting from index 1
-- At each index, add the previous element to the current element
-- This overwrites the array in-place with the running sum
-- Return the modified array
+1. Start loop from `i = 1`
+2. Each iteration: `nums[i] = nums[i] + nums[i-1]`
+3. Return `nums`
 
-## **Mistakes:**
+---
 
-- Got confused between `i < nums.length` and `i <= nums.length` — `<=` would cause ArrayIndexOutOfBoundsException because arrays are 0-indexed and `nums[nums.length]` doesn't exist
-- Initially tried printing the array inside the method that is not needed, `return` is what matters
-
-## **Solution:**
+## Solution
 
 ```java
 class Solution {
@@ -53,12 +38,46 @@ class Solution {
         for (int i=1; i<nums.length; i++) {
             nums[i] = nums[i] + nums[i-1];
         }
+
         return nums;
     }
 }
 ```
 
-## **Complexity:**
+---
 
-- Time: O(n) — one loop, runs n times
-- Space: O(1) — modified input in-place, no extra space used
+## **Dry Run**
+
+```
+Input: [1, 2, 3, 4]
+
+i=1 → nums[1] = 2+1 = 3  → [1,3,3,4]
+i=2 → nums[2] = 3+3 = 6  → [1,3,6,4]
+i=3 → nums[3] = 4+6 = 10 → [1,3,6,10]
+
+Output: [1,3,6,10]
+```
+
+---
+
+## Complexity
+
+**Time Complexity**
+O(n) — single pass
+
+**Space Complexity**
+O(1) — modified in place, no extra array
+
+---
+
+## **Revision Notes (30-second review)**
+
+Loop from index 1. Each element = itself + previous. Return array. O(n) time, O(1) space.
+
+---
+
+## **Similar Problems**
+
+- LC 303 — Range Sum Query
+- LC 724 — Find Pivot Index
+- LC 238 — Product of Array Except Self
