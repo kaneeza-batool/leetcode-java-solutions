@@ -1,96 +1,105 @@
-## Problem
+## **Problem Summary**
 
-A phrase is a **palindrome** if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring case.  (Two pointers-Opposite approach)
 
-Given a string `s`, return `true` *if it is a **palindrome**, or* `false` *otherwise*.
+---
 
-**Example 1:**
+## **Initial Thought Process**
 
-```
-Input: s = "A man, a plan, a canal: Panama"
-Output: true
-Explanation: "amanaplanacanalpanama" is a palindrome.
+Two pointers from both ends, compare characters, move inward. Initially, I missed the alphanumeric filtering and case handling.
 
-```
+---
 
-**Example 2:**
+## **Mistakes / Struggles**
 
-```
-Input: s = "race a car"
-Output: false
-Explanation: "raceacar" is not a palindrome.
+- Forgot to filter non-alphanumeric characters initially
+- Passed index `i` instead of `s.charAt(i)` to `Character.isLetterOrDigit()`
+- Tried calling `.lowerCase()` on `char` — primitives don't have methods
+- Tried `.equals()` on `char` — primitives don't have methods, use `==.`
+- `j--` direction confused initially (was writing `j++`)
 
-```
+---
 
-**Example 3:**
+## **Key Observation**
 
-```
-Input: s = " "
-Output: true
-Explanation: s is an empty string "" after removing non-alphanumeric characters.
-Since an empty string reads the same forward and backward, it is a palindrome.
+Skip non-alphanumeric characters before comparing. Only compare when both pointers are sitting on valid characters.
 
-```
+---
 
-**Constraints:**
+## **Final Approach**
 
-- `1 <= s.length <= 2 * 105`
-- `s` consists only of printable ASCII characters.
+1. Initialize `i = 0`, `j = s.length() - 1`
+2. While `i < j`:
+    - If `s.charAt(i)` not alphanumeric → `i++`
+    - If `s.charAt(j)` not alphanumeric → `j--`
+    - Else compare both after `toLowerCase` → if equal move both, else return false
+3. Return true
 
-## Approach
-
-- Use two pointers `i` at start and `j` at end of string
-- Skip non-alphanumeric characters by checking with `Character.isLetterOrDigit()` and using `continue` to move the pointer without comparing
-- Compare left and right characters after converting both to lowercase using `Character.toLowerCase()`
-- If mismatch found, return `false` immediately
-- If pointers cross without mismatch, return `true`
-
-## **New Methods Used:**
-
-- `s.charAt(i)` — returns character at index `i` in a String
-- `Character.isLetterOrDigit(c)` — returns `true` if character is a letter or digit, `false` otherwise
-- `Character.toLowerCase(c)` — converts a character to lowercase for case-insensitive comparison
-
-## Mistakes
-
-- Forgot `continue` after skipping non-alphanumeric characters — without it, the code falls through and compares invalid characters
-- All methods above were new — had to learn them fresh
+---
 
 ## Solution
 
 ```java
 class Solution {
     public boolean isPalindrome(String s) {
-        int i = 0;
-        int j = s.length() - 1;
-
-        while (i < j) {
-            char left = s.charAt(i);
-            char right = s.charAt(j);
-
-            if (!Character.isLetterOrDigit(left)) {
-                i++;
-                continue;
-            }
-            if (!Character.isLetterOrDigit(right)) {
-                j--;
-                continue;
-            }
-
-            if (Character.toLowerCase(left) != Character.toLowerCase(right)) {
-                return false;
-            }
-
+    
+    int i=0;
+    int j=s.length()-1;
+        
+    while (i<j) {
+        if (!Character.isLetterOrDigit(s.charAt(i))) {
+            i++;
+        }
+        else if (!Character.isLetterOrDigit(s.charAt(j))) {
+            j--;
+        }
+        else if (Character.toLowerCase(s.charAt(i)) ==  Character.toLowerCase(s.charAt(j))) {
             i++;
             j--;
         }
-        return true;
+        else {
+            return false;
+        }
+    }
+    return true;
     }
 }
-
 ```
 
-## Time and Space Complexity
+---
 
-- Time: O(n) — Single pass through the string
-- Space: O1n) — No extra data structure used
+## **Dry Run**
+
+```
+Input: "A man, a plan, a canal: Panama"
+
+i=0  j=29  → A vs a → equal → i++, j--
+i=1  j=28  → ' ' skipped → i++
+i=2  j=28  → m vs m → equal → i++, j--
+... continues until i >= j
+return true
+```
+
+---
+
+## Complexity
+
+**Time Complexity**
+O(n) — single pass through the string
+
+**Space Complexity**
+O(1) — no extra data structure used
+
+---
+
+## **Revision Notes (30-second review)**
+
+Two pointers from both ends. Skip non-alphanumeric. Compare lowercase chars. Move inward if equal, return false if not.
+
+---
+
+## **Similar Problems**
+
+- LC 234 — Palindrome Linked List
+- LC 680 — Valid Palindrome II
+- LC 9 — Palindrome Number
