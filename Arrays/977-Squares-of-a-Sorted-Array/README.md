@@ -1,126 +1,76 @@
-## Problem
+## **Problem Summary**
 
-Given an integer array `nums` sorted in **non-decreasing** order, return *an array of the squares of each number sorted in non-decreasing order*.
+Given a sorted array with negative numbers, return array of squares in sorted order.
 
-**Example 1:**
+---
+
+## **Initial Thought Process**
+
+Square each element in place then sort. Works but O(n log n).
+
+---
+
+## **Mistakes / Struggles**
+
+- First approach was brute force O(n log n) — correct but not optimal
+- Forgot to remove squaring loop when switching to Two Pointers approach
+- Used `i < j` instead of `i <= j` — missed last element when pointers meet
+- Compared `nums[i] > nums[j]` directly — fails with negatives, must use `Math.abs()`
+- Returned `nums` instead of `result`
+
+---
+
+## **Key Observation**
+
+Largest squares always come from both ends of a sorted array. Compare absolute values, place largest square at the back of result array, fill backwards.
+
+---
+
+## **Final Approach**
+
+1. Initialize `left = 0`, `right = nums.length - 1`, `k = nums.length - 1`
+2. While `left <= right`:
+    - Compare `Math.abs(nums[left])` vs `Math.abs(nums[right])`
+    - Place larger square at `result[k]`, move that pointer inward, `k--`
+3. Return result
+
+---
+
+## **Dry Run**
 
 ```
-Input: nums = [-4,-1,0,3,10]
-Output: [0,1,9,16,100]
-Explanation: After squaring, the array becomes [16,1,0,9,100].
-After sorting, it becomes [0,1,9,16,100].
+nums = [-4, -1, 0, 3, 10]
+left=0, right=4, k=4
 
+abs(-4)=4 < abs(10)=10 → result[4]=100, right--, k--
+abs(-4)=4 > abs(3)=3  → result[3]=16, left++, k--
+abs(-1)=1 < abs(3)=3  → result[2]=9, right--, k--
+abs(-1)=1 > abs(0)=0  → result[1]=1, left++, k--
+abs(0)=0 == abs(0)=0  → result[0]=0, right--, k--
+
+Output: [0,1,9,16,100] ✅
 ```
 
-**Example 2:**
+---
 
-```
-Input: nums = [-7,-3,2,3,11]
-Output: [4,9,9,49,121]
+## Complexity
 
-```
+**Time Complexity**
+O(n) — single pass
 
-**Constraints:**
+**Space Complexity**
+O(n) — result array
 
-- `1 <= nums.length <= 104`
-- `104 <= nums[i] <= 104`
-- `nums` is sorted in **non-decreasing** order.
+---
 
-## Approach (Brute Force)
+## **Revision Notes (30-second review)**
 
-- Loop through `nums` and square each element using `Math.pow(nums[i], 2)`, casting to `int`
-- Sort the modified array in-place using `Arrays.sort(nums)`
-- Return `nums`
+Two pointers from both ends. Compare absolute values. Place larger square at back of result. Fill backwards. O(n).
 
-## Mistakes
+---
 
-- Forgot to typecast `Math.pow()` as it returns `double`, must cast to `int` explicitly: `(int)Math.pow(nums[i], 2)`
-- Tried `nums = nums.sort() incorrectly. `Arrays.sort()` is a static method called as `Arrays.sort(nums)`, it sorts in-place and returns nothing
+## **Similar Problems**
 
-## Solution (Brute Force Approach)
-
-```java
-class Solution {
-    public int[] sortedSquares(int[] nums) {
-        for(int i=0; i<nums.length; i++) {
-            nums[i] = (int)Math.pow(nums[i], 2);
-        }
-
-        Arrays.sort(nums);
-
-        return nums;
-    }
-}
-```
-
-## Time and Space Complexity
-
-- **Time:** O(n log n) — Determined by sorting `Arrays.sort()`
-- **Space:** O(1) — modifying the same array
-
-## Approach (Two Pointers)
-
-- Square all elements in-place using `nums[i] *= nums[i]`
-- Use two pointers — `left` starting at 0, `right` at the last index
-- Fill a result array from back to front (largest to smallest)
-- At each step, compare `nums[left]` and `nums[right]` — whichever is larger goes into `result[pos]`, then move that pointer inward
-- Return result
-
-## Mistakes
-
-- Incorrect use of `Math.abs()` — passed a boolean expression instead of a number
-    
-    → `Math.abs(nums[i] > Math.abs(nums[j]))` is invalid
-    
-- Used `Math.pow()` for squaring — returns `double`, causing type mismatch with `int`
-- Missing curly braces `{}` in `if` statement — caused unintended execution of `i++`
-- Pointer update placed outside `if` block — broke two-pointer logic
-
-**`Math.abs()` usage in Java:**
-
-- Takes a numeric value and returns its absolute value
-- Correct: `Math.abs(nums[i]) > Math.abs(nums[j])`
-- Incorrect: `Math.abs(condition)` ❌ (cannot pass boolean)
-
-**Squaring numbers in Java:**
-
-- Prefer multiplication: `x * x`
-- `Math.pow(x, 2)` returns `double`, not `int`
-- Use `Math.pow` only when working with non-integer powers
-
-## Solution (Two pointers Approach)
-
-```java
-class Solution {
-    public int[] sortedSquares(int[] nums) {
-        int[] result = new int[nums.length];
-
-        int i=0; 
-        int j=nums.length-1;
-        int k=nums.length-1;
-        while(i<=j) {
-            if (Math.abs(nums[i]) > Math.abs(nums[j])) {
-                result[k] = nums[i] * nums[i];
-                i++;
-            }
-            else {
-                result[k] = nums[j] * nums[j];
-                j--;
-            }
-            k--;
-        }
-
-        return result;
-        
-    }
-}
-```
-
-## Time and Space Complexity
-
-- **Time:** O(n) — Single pass with two pointers
-- **Space:** O(n) — New result array of size n
-
-## Follow up
-
-Squaring each element and sorting the new array is very trivial, could you find an `O(n)` solution using a different approach?
+- LC 88 — Merge Sorted Array
+- LC 167 — Two Sum II
+- LC 75 — Sort Colors
