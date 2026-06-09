@@ -1,81 +1,68 @@
-## Problem
+## **Problem Summary**
 
-There is a programming language with only **four** operations and **one** variable `X`:
+Given a string array of operations, increment or decrement x starting from 0. Return final value.
 
-- `++X` and `X++` **increments** the value of the variable `X` by `1`.
-- `-X` and `X--` **decrements** the value of the variable `X` by `1`.
+---
 
-Initially, the value of `X` is `0`.
+## **Initial Thought Process**
 
-Given an array of strings `operations` containing a list of operations, return *the **final** value of* `X` *after performing all the operations*.
+Initialize x = 0. Loop through operations. Check if operation is increment or decrement. Return x.
 
-**Example 1:**
+---
 
-```
-Input: operations = ["--X","X++","X++"]
-Output: 1
-Explanation: The operations are performed as follows:
-Initially, X = 0.
---X: X is decremented by 1, X =  0 - 1 = -1.
-X++: X is incremented by 1, X = -1 + 1 =  0.
-X++: X is incremented by 1, X =  0 + 1 =  1.
+## **Mistakes / Struggles**
 
-```
+- Used “==” instead of .equals()
 
-**Example 2:**
+---
 
-```
-Input: operations = ["++X","++X","X++"]
-Output: 3
-Explanation:The operations are performed as follows:
-Initially, X = 0.
-++X: X is incremented by 1, X = 0 + 1 = 1.
-++X: X is incremented by 1, X = 1 + 1 = 2.
-X++: X is incremented by 1, X = 2 + 1 = 3.
+## **Key Observation**
 
-```
+Only two outcomes — increment or decrement. Else branch handles decrement automatically since no other operations exist.
 
-**Example 3:**
+---
+
+## **Final Approach**
+
+1. Initialize `X = 0`
+2. Loop through operations
+3. If `"++X"` or `"X++"` → `X++`
+4. Else → `X--`
+5. Return X
+
+---
+
+## **Dry Run**
 
 ```
-Input: operations = ["X++","++X","--X","X--"]
-Output: 0
-Explanation: The operations are performed as follows:
-Initially, X = 0.
-X++: X is incremented by 1, X = 0 + 1 = 1.
-++X: X is incremented by 1, X = 1 + 1 = 2.
---X: X is decremented by 1, X = 2 - 1 = 1.
-X--: X is decremented by 1, X = 1 - 1 = 0.
+operations = ["--X", "X++", "X++"]
 
+i=0 → "--X" → X = -1
+i=1 → "X++" → X = 0
+i=2 → "X++" → X = 1
+
+return 1
 ```
 
-**Constraints:**
+---
 
-- `1 <= operations.length <= 100`
-- `operations[i]` will be either `"++X"`, `"X++"`, `"--X"`, or `"X--"`
+## Complexity
 
-## **Approach:**
+**Time Complexity**
+O(n) — single pass
 
-- Initialise x as 0
-- Loop through every operation in the array
-- If the operation is "X++" or "++X", increment x
-- Otherwise, decrement x
-- Return x
+**Space Complexity**
+O(1) — no extra space
 
-## **Mistakes:**
+---
 
-- Used `==` instead of `.equals()` for String comparison — `==` compares memory references in Java, not actual string content. Always use `.equals()` for Strings.
-- Unnecessary extra parentheses inside the `if` condition — not a bug but messy style
+## **Revision Notes (30-second review)**
 
-**`==` vs `.equals()` in Java:**
+Loop through operations. equals() for String comparison. Increment or decrement x. Return x.
 
-- `==` compares memory references — checks if two variables point to the same object in memory
-- `.equals()` compares actual content — checks if two objects have the same value
-- Primitives (`int`, `char`, `boolean`) → use `==`
-- Strings and objects → always use `.equals()`
-- Two strings can have identical content but be different objects in memory — `==` returns `false`, `.equals()` returns `true`
+---
 
-## **Complexity:**
+## **Similar Problems**
 
-- Time: O(n) — single pass through the array
-- Space: O(1) — only one integer variable used
+- LC 1480 — Running Sum of 1D Array
+- LC 58 — Length of Last Word
