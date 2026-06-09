@@ -1,46 +1,74 @@
-## Problem
+## **Problem Summary**
 
-There is a biker going on a road trip. The road trip consists of `n + 1` points at different altitudes. The biker starts his trip on point `0` with altitude equal `0`.
+Given a gain array representing altitude changes, find the highest altitude reached. Starting altitude is 0.
 
-You are given an integer array `gain` of length `n` where `gain[i]` is the **net gain in altitude** between points `i` and `i + 1` for all (`0 <= i < n)`. Return *the **highest altitude** of a point.*
+---
 
-**Example 1:**
+## **Initial Thought Process**
+
+Create altitude array of size `gain.length + 1`. First element is 0. Each altitude = previous altitude + current gain. Track max while building.
+
+---
+
+## **Mistakes / Struggles**
+
+- Initially said "add element i and i+1 from gain array", wrong formula. Altitude uses previous altitude + current gain, not gain + gain.
+    - Formula is always `altitude[i] = altitude[i-1] + gain[i-1]`, not gain + gain
+- Named array `altitudes` but wrote `altitude` inside loop — typo causing compilation error
+
+---
+
+## **Key Observation**
+
+Same pattern as Running Sum,  each element depends on the previous one. Starting altitude is 0 so initialize max = 0, not Integer.MIN_VALUE.
+
+---
+
+## **Final Approach**
+
+1. Create `altitudes[]` of size `gain.length + 1`
+2. `altitudes[0] = 0` (default)
+3. Loop from `i = 1`: `altitudes[i] = altitudes[i-1] + gain[i-1]`
+4. Track max inside loop
+5. Return max
+
+---
+
+## **Dry Run**
 
 ```
-Input: gain = [-5,1,5,0,-7]
-Output: 1
-Explanation: The altitudes are [0,-5,-4,1,1,-6]. The highest is 1.
+gain = [-5, 1, 5, 0, -7]
 
+altitudes[0] = 0
+altitudes[1] = 0 + (-5) = -5
+altitudes[2] = -5 + 1 = -4
+altitudes[3] = -4 + 5 = 1
+altitudes[4] = 1 + 0 = 1
+altitudes[5] = 1 + (-7) = -6
+
+max = 1
 ```
 
-**Example 2:**
+---
 
-```
-Input: gain = [-4,-3,-2,-1,4,3,2]
-Output: 0
-Explanation: The altitudes are [0,-4,-7,-9,-10,-6,-3,-1]. The highest is 0.
-```
+## Complexity
 
-**Constraints:**
+**Time Complexity**
+O(n) — single pass
 
-- `n == gain.length`
-- `1 <= n <= 100`
-- `100 <= gain[i] <= 100`
+**Space Complexity**
+O(n) — extra altitude array of size n+1
 
-## Approach
+---
 
-- Initialise `currentAltitude` and `maxAltitude` to 0 (biker starts at altitude 0)
-- Loop through the gain array
-- At each index, add `gain[i]` to `currentAltitude` to get the running altitude
-- Update `maxAltitude` if `currentAltitude` is greater
-- Return `maxAltitude`
+## **Revision Notes (30-second review)**
 
-## Mistakes
+Altitude array size = gain.length + 1. Start at 0. Each element = previous altitude + current gain. Track max inside loop.
 
-- Wrote approach incorrectly — said "assign to maxAltitude if altitude < maxAltitude" but the correct condition is > maxAltitude. Code was right, written logic was backwards.
-- Used a manual `if` block in the first attempt — upgraded to `Math.max()`, which is cleaner and more idiomatic Java
+---
 
-## Time and Space Complexity
+## **Similar Problems**
 
-- **Time:** O(n) — iterate through all gains once
-- **Space:** O(1) — only two variables needed
+- LC 1480 — Running Sum of 1D Array
+- LC 303 — Range Sum Query
+- LC 724 — Find Pivot Index
