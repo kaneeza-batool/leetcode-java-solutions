@@ -1,50 +1,71 @@
-## Problem
+## **Problem Summary**
 
-Given an integer array `nums` of length `n`, you want to create an array `ans` of length `2n` where `ans[i] == nums[i]` and `ans[i + n] == nums[i]` for `0 <= i < n` (**0-indexed**).
+Given array nums of length n, return array of length 2n where nums appears twice consecutively.
 
-Specifically, `ans` is the **concatenation** of two `nums` arrays.
+---
 
-Return *the array* `ans`.
+## **Initial Thought Process**
 
-**Example 1:**
+Create new array of size 2n. Fill first half and second half simultaneously using same loop. Return result.
+
+---
+
+## **Mistakes / Struggles**
+
+- None. Clean solve.
+
+---
+
+## **Key Observation**
+
+`ans[i]` and `ans[i+n]` can both be filled in a single loop pass. No need for two separate loops.
+
+---
+
+## **Final Approach**
+
+1. `n = nums.length`
+2. Create `ans[]` of size `2*n`
+3. Loop from `i = 0` to `n`
+4. `ans[i] = nums[i]` and `ans[i+n] = nums[i]`
+5. Return ans
+
+---
+
+## **Dry Run**
 
 ```
-Input: nums = [1,2,1]
-Output: [1,2,1,1,2,1]
-Explanation: The array ans is formed as follows:
-- ans = [nums[0],nums[1],nums[2],nums[0],nums[1],nums[2]]
-- ans = [1,2,1,1,2,1]
+nums = [1, 2, 3]
+n = 3
+
+i=0 → ans[0]=1, ans[3]=1
+i=1 → ans[1]=2, ans[4]=2
+i=2 → ans[2]=3, ans[5]=3
+
+Output: [1,2,3,1,2,3] ✅
 ```
 
-**Example 2:**
+---
 
-```
-Input: nums = [1,3,2,1]
-Output: [1,3,2,1,1,3,2,1]
-Explanation: The array ans is formed as follows:
-- ans = [nums[0],nums[1],nums[2],nums[3],nums[0],nums[1],nums[2],nums[3]]
-- ans = [1,3,2,1,1,3,2,1]
+## Complexity
 
-```
+**Time Complexity**
+O(n) — single pass
 
-**Constraints:**
+**Space Complexity**
+O(n) — new array of size 2n
 
-- `n == nums.length`
-- `1 <= n <= 1000`
-- `1 <= nums[i] <= 1000`
+---
 
-## Approach
+## **Revision Notes (30-second review)**
 
-- Initialise `ans` array of size `2n.`
-- Loop through `nums` once
-- At each index `i`, copy `nums[i]` to both `ans[i]` and `ans[i+n]` simultaneously
-- Return `ans`
+New array size 2n. One loop. ans[i] and ans[i+n] both equal nums[i]. Return ans.
 
-## Mistakes
+---
 
-- First instinct was two loops, but I used a single loop instead, filling both halves simultaneously.
+## **Similar Problems**
 
-## Time and Space Complexity
+- LC 1480 — Running Sum of 1D Array
+- LC 1470 — Shuffle the Array
 
-- **Time:** O(n) — single loop
-- **Space:** O(n) — created new array of size `2n`
+---
