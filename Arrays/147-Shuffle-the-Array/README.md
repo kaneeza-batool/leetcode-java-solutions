@@ -1,74 +1,71 @@
+## **Problem Summary**
 
-## Problem
+Given array `[x1,x2,x3,y1,y2,y3]` of length 2n, return it interleaved as `[x1,y1,x2,y2,x3,y3]`.
 
-Given the array `nums` consisting of `2n` elements in the form `[x1,x2,...,xn,y1,y2,...,yn]`.
+---
 
-*Return the array in the form* `[x1,y1,x2,y2,...,xn,yn]`.
+## **Initial Thought Process**
 
-**Example 1:**
+Loop with i+2 increment and swap in place. Both were wrong — increment did nothing, and in-place swap overwrites needed values.
+
+---
+
+## **Mistakes / Struggles**
+
+- Used `i+2` as increment instead of `i++` — does nothing, not a valid increment
+- Tried to swap in place — overwrites values still needed
+- Used `i` and `i+1` as result indices instead of `2*i` and `2*i+1`
+- Copied from `result` instead of `nums` for y values
+
+---
+
+## **Key Observation**
+
+When filling two slots per iteration, result indices are `2*i` and `2*i+1`. X values are at `nums[i]`, Y values are at `nums[i+n]`.
+
+---
+
+## **Final Approach**
+
+1. Create `result[]` of size `2*n`
+2. Loop from `i=0` to `n`
+3. `result[2*i] = nums[i]`
+4. `result[2*i+1] = nums[i+n]`
+5. Return result
+
+---
+
+## **Dry Run**
 
 ```
-Input: nums = [2,5,1,3,4,7], n = 3
-Output: [2,3,5,4,1,7]
-Explanation: Since x1=2, x2=5, x3=1, y1=3, y2=4, y3=7 then the answer is [2,3,5,4,1,7].
+nums = [2,5,1,3,4,7], n=3
 
+i=0 → result[0]=2, result[1]=3
+i=1 → result[2]=5, result[3]=4
+i=2 → result[4]=1, result[5]=7
+
+Output: [2,3,5,4,1,7] ✅
 ```
 
-**Example 2:**
+---
 
-```
-Input: nums = [1,2,3,4,4,3,2,1], n = 4
-Output: [1,4,2,3,3,2,4,1]
+## Complexity
 
-```
+**Time Complexity**
+O(n) — single pass
 
-**Example 3:**
+**Space Complexity**
+O(n) — result array of size 2n
 
-```
-Input: nums = [1,1,2,2], n = 2
-Output: [1,2,1,2]
+---
 
-```
+## **Revision Notes (30-second review)**
 
-**Constraints:**
+New array size 2n. Loop to n. result[2*i] = nums[i], result[2*i+1] = nums[i+n]. Return result.
 
-- `1 <= n <= 500`
-- `nums.length == 2n`
-- `1 <= nums[i] <= 10^3`
+---
 
-## Approach
+## **Similar Problems**
 
-- Create a new array of size `2n`.
-- Keep a pointer `count` that starts at 0.
-- Loop from `i = 0` to `i < n`:
-    - Put `nums[i]` at `count`.
-    - Put `nums[i + n]` at `count + 1`.
-    - Move `count` forward by 2.
-- Return the new array.
-
-## Mistakes
-
-- Understood the problem but couldn’t think of solution so got help from youtube
-
-## Solution
-
-```java
-class Solution {
-    public int[] shuffle(int[] nums, int n) {
-       int arr[] = new int[nums.length];
-       int count=0;
-       for(int i=0; i<n; i++) {
-        arr[count] = nums[i];
-        arr[count+1] = nums[i+n];
-        count+=2;
-       }
-       return arr;
-    }
-
-}
-```
-
-## Time and Space Complexity
-
-- Time : O(n) — Single loop up to n
-- Space : O(n) — New result array of size 2n
+- LC 1929 — Concatenation of Array
+- LC 905 — Sort Array By Parity
