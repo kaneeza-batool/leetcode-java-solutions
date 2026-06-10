@@ -1,43 +1,74 @@
-## Problem
+## **Problem Summary**
 
-Given a binary array `nums`, return *the maximum number of consecutive* `1`*'s in the array*.
+Given a binary array, return the maximum number of consecutive 1s.
 
-**Example 1:**
+---
+
+## **Initial Thought Process**
+
+Compare adjacent elements `nums[i] == nums[i+1]`. Flawed — misses single 1s and never resets count on 0.
+
+---
+
+## **Mistakes / Struggles**
+
+- Compared adjacent elements instead of checking current element alone
+- Never reset count when hitting a 0
+- Started loop from `i=1` — skipped first element
+
+---
+
+## **Key Observation**
+
+Only check current element. Increment count on 1, reset to 0 on anything else. Update max after every increment.
+
+---
+
+## **Final Approach**
+
+1. `count = 0`, `maxCount = 0`
+2. Loop from `i=0`
+3. If `nums[i] == 1` → `count++`, update maxCount
+4. Else → `count = 0`
+5. Return maxCount
+
+---
+
+## **Dry Run**
 
 ```
-Input: nums = [1,1,0,1,1,1]
-Output: 3
-Explanation: The first two digits or the last three digits are consecutive 1s. The maximum number of consecutive 1s is 3.
+nums = [1,1,0,1,1,1]
 
+i=0 → 1, count=1, max=1
+i=1 → 1, count=2, max=2
+i=2 → 0, count=0
+i=3 → 1, count=1, max=2
+i=4 → 1, count=2, max=2
+i=5 → 1, count=3, max=3
+
+Output: 3 ✅
 ```
 
-**Example 2:**
+---
 
-```
-Input: nums = [1,0,1,1,0,1]
-Output: 2
+## Complexity
 
-```
+**Time Complexity**
+O(n) — single pass
 
-**Constraints:**
+**Space Complexity**
+O(1) — no extra space
 
-- `1 <= nums.length <= 105`
-- `nums[i]` is either `0` or `1`
+---
 
-## Approach
+## **Revision Notes (30-second review)**
 
-- Initialise `count` to track current consecutive 1s and `max` to track the highest seen so far, both set to 0
-- Loop through the array
-- If current element is `1`, increment `count` and update `max` using `Math.max(max, count)`
-- If current element is `0`, reset `count` to 0
-- Return `max`
+Loop through array. Count 1s, reset on 0. Track max after every increment. Return maxCount.
 
-## Mistakes
+---
 
-- No bugs. Solved in one clean attempt.
-- Had to think about resetting `count` to 0 when a 0 is encountered.
+## **Similar Problems**
 
-## Time and Space Complexity
-
-- **Time:** O(n) — single pass through the array
-- **Space:** O(1) — only two counters needed
+- LC 487 — Max Consecutive Ones II
+- LC 1004 — Max Consecutive Ones III
+- LC 283 — Move Zeroes
