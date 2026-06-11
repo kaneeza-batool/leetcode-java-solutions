@@ -18,7 +18,7 @@ Two pointers i and j for each word. Interleave characters. Append remaining char
 
 ---
 
-**Key Observation**
+## **Key Observation**
 Two Input Pointers pattern. Main loop runs while both have characters. Two separate loops handle remaining characters of each word independently.
 
 ---
