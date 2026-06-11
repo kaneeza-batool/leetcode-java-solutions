@@ -1,60 +1,79 @@
-## Problem
+## **Problem Summary**
 
-Write a function that reverses a string. The input string is given as an array of characters `s`.
+Reverse a character array in-place.
 
-You must do this by modifying the input array [in-place](https://en.wikipedia.org/wiki/In-place_algorithm) with `O(1)` extra memory.
+---
 
-**Example 1:**
+## **Initial Thought Process**
+
+Two pointers opposite direction. Swap from both ends moving inward.
+
+---
+
+## **Mistakes / Struggles**
+
+- Forgot `i++` and `j--` inside loop that causes infinite loop
+
+---
+
+## **Key Observation**
+
+Classic opposite direction two pointers. Swap and move both pointers inward until they meet.
+
+---
+
+**Final Approach**
+
+1. `i = 0`, `j = s.length - 1`
+2. While `i < j`: swap `s[i]` and `s[j]`, `i++`, `j--`
+
+---
+
+## **Dry Run**
 
 ```
-Input: s = ["h","e","l","l","o"]
-Output: ["o","l","l","e","h"]
+s = ['h','e','l','l','o']
 
+i=0,j=4 → swap h,o → ['o','e','l','l','h']
+i=1,j=3 → swap e,l → ['o','l','l','e','h']
+i=2,j=2 → i<j false, stop
+
+Output: ['o','l','l','e','h'] ✅
 ```
 
-**Example 2:**
+---
 
-```
-Input: s = ["H","a","n","n","a","h"]
-Output: ["h","a","n","n","a","H"]
+## **Pattern Used**
 
-```
+Two Pointers — Opposite Direction
 
-**Constraints:**
+---
 
-- `1 <= s.length <= 105`
-- `s[i]` is a [printable ascii character](https://en.wikipedia.org/wiki/ASCII#Printable_characters).
+## Complexity
 
-## Approach
+**Time Complexity**
+O(n) — single pass
 
-- Use two pointers `i` at start and `j` at end
-- Swap `s[i]` and `s[j]` using a temp variable
-- Move `i` forward and `j` backward
-- Repeat until pointers cross
+**Space Complexity**
+O(1) — in-place
 
-## Mistakes
+---
 
-- Declared `temp` as `int` instead of `char` — the array is `char[]` so temp must be `char` to store the character correctly. `int` would store the ASCII value, not the character itself.
+## **Java Notes**
 
-## Solution
+- `char[]` uses `.length` not `.length()` — it's an array not a String
+- Always include pointer movement inside while loop or it runs forever
 
-```java
-class Solution {
-    public void reverseString(char[] s) {
-        int i=0;
-        int j=s.length-1;
-        while (i<j) {
-            char temp = s[i];
-            s[i] = s[j];
-            s[j] = temp;
-            i++;
-            j--;
-        }
-    }
-}
-```
+---
 
-## Time and Space Complexity
+## **Revision Notes (30-second review)**
 
-- Time: O(n) — Single pass through the array
-- Space: O(1) — In-place swap, no extra structure
+i=0, j=end. Swap, i++, j--. Stop when i>=j.
+
+---
+
+## **Similar Problems**
+
+- LC 125 — Valid Palindrome
+- LC 541 — Reverse String II
+- LC 345 — Reverse Vowels of a String
