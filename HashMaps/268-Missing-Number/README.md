@@ -81,8 +81,3 @@ Expected sum = n*(n+1)/2. Subtract all elements. Return remainder.
 - LC 287 — Find the Duplicate Number
 - LC 41 — First Missing Positive
 
-
-
----
-
-c, Coding Templates, Mind Map — No new updates**
